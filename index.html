@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Un techo para las Barras de Insurgentes</title>
+<meta name="description" content="Iniciativa ciudadana para renovar las Barras de Insurgentes en la Glorieta Insurgentes, CDMX. La prioridad: techar el espacio para poder usarlo todo el año." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================================
+   IDENTIDAD VISUAL  ·  Barras de Insurgentes
+   (Si cambias algo aquí, cámbialo también en avances.html para que
+    las dos páginas se vean igual.)
+   ========================================================================= */
+:root{
+  --ink:#12211D; --pine:#123A34; --pine-2:#1C5C4F;
+  --amber:#E0A62E; --amber-deep:#B87E14;
+  --paper:#F7F5EF; --card:#FFFFFF; --altrow:#F1EFE8;
+  --concrete:#6B6F6A; --line:#E4E0D6; --soft:#E8F0EC;
+  --serif: 'Barlow', system-ui, sans-serif;
+  --disp: 'Barlow Condensed', 'Barlow', sans-serif;
+  --shadow: 0 18px 40px rgba(18,33,29,.14);
+  --shadow-sm: 0 6px 18px rgba(18,33,29,.10);
+  --wrap: 1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.disp{font-family:var(--disp); line-height:1.02; margin:0}
+a{color:inherit}
+img{max-width:100%; display:block}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 22px}
+.kicker{
+  font-family:var(--disp); text-transform:uppercase; letter-spacing:.16em;
+  font-weight:700; font-size:.86rem; color:var(--amber-deep);
+}
+.section{padding:78px 0}
+.section h2{font-size:clamp(2.1rem,5vw,3.3rem); font-weight:800; letter-spacing:-.01em; margin:.35em 0 .5em}
+.lead{font-size:1.12rem; color:#33403A; max-width:60ch}
+
+/* ---- Botones ---- */
+.btn{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-family:var(--disp); font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+  font-size:1rem; text-decoration:none; border-radius:999px; padding:14px 26px;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease; cursor:pointer; border:0;
+}
+.btn-amber{background:var(--amber); color:#26200C; box-shadow:var(--shadow-sm)}
+.btn-amber:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+.btn-ghost{background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{border-color:#fff; background:rgba(255,255,255,.08)}
+.btn-pine{background:var(--pine); color:#fff}
+.btn-pine:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+
+/* ---- Navegación ---- */
+.nav{position:sticky; top:0; z-index:50; background:rgba(247,245,239,.92);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--disp);
+  font-weight:800; text-transform:uppercase; letter-spacing:.04em; font-size:1.15rem; color:var(--pine)}
+.brand .mark{width:26px; height:26px; flex:0 0 auto}
+.nav-links{display:flex; align-items:center; gap:22px}
+.nav-links a.lnk{font-family:var(--disp); text-transform:uppercase; letter-spacing:.05em;
+  font-weight:600; text-decoration:none; color:var(--pine); font-size:.98rem}
+.nav-links a.lnk:hover{color:var(--amber-deep)}
+.nav-donate{padding:9px 18px; font-size:.9rem}
+@media(max-width:680px){ .nav-links a.lnk{display:none} }
+
+/* ---- HERO ---- */
+.hero{position:relative; min-height:88vh; display:flex; align-items:flex-end;
+  color:#fff; overflow:hidden}
+.hero .bg{position:absolute; inset:0; background:#0d201b}
+.hero .bg img{width:100%; height:100%; object-fit:cover; opacity:.62}
+.hero .bg::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(10,26,21,.35) 0%, rgba(10,26,21,.55) 55%, rgba(10,26,21,.92) 100%)}
+.hero .inner{position:relative; z-index:2; padding:0 0 60px; max-width:820px}
+.hero .kicker{color:var(--amber)}
+.hero h1{font-size:clamp(2.8rem,8vw,6rem); font-weight:800; letter-spacing:-.015em; margin:.18em 0 .3em}
+.hero p{font-size:1.2rem; max-width:56ch; color:#EAF1EC}
+.hero .cta-row{display:flex; flex-wrap:wrap; gap:14px; margin-top:28px}
+/* silueta de techo trazada sobre el cielo */
+.roofline{position:absolute; z-index:1; top:12%; left:50%; transform:translateX(-50%);
+  width:min(760px,86%); opacity:.9; pointer-events:none}
+.roofline path,.roofline line{stroke:var(--amber); stroke-width:3; fill:none;
+  stroke-linecap:round; stroke-linejoin:round}
+.roofline .draw{stroke-dasharray:1400; stroke-dashoffset:1400; animation:draw 2.2s .3s ease forwards}
+.roofline .tag{fill:var(--amber); font-family:var(--disp); font-weight:700;
+  font-size:20px; letter-spacing:.12em; text-transform:uppercase; opacity:0; animation:fadein .6s 2.1s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fadein{to{opacity:.95}}
+
+/* ---- bloques de contenido ---- */
+.eyebrow-row{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+.grid{display:grid; gap:20px}
+.two{grid-template-columns:1fr 1fr}
+.three{grid-template-columns:repeat(3,1fr)}
+@media(max-width:860px){.two,.three{grid-template-columns:1fr}}
+
+.card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px;
+  box-shadow:var(--shadow-sm)}
+.card h3{font-size:1.5rem; font-weight:700; color:var(--pine); margin-bottom:.3em}
+
+/* lista de problemas */
+.problems{list-style:none; padding:0; margin:22px 0 0; display:grid; gap:12px}
+.problems li{display:flex; gap:12px; align-items:flex-start; font-size:1.05rem}
+.problems .x{flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--soft);
+  color:var(--pine); display:grid; place-items:center; font-family:var(--disp); font-weight:800; margin-top:2px}
+
+/* bloque "por qué el techo" */
+.why{background:var(--pine); color:#fff; border-radius:20px; padding:36px; box-shadow:var(--shadow);
+  position:relative; overflow:hidden}
+.why::before{content:""; position:absolute; right:-40px; top:-40px; width:220px; height:220px;
+  border:20px solid rgba(224,166,46,.22); border-radius:50%}
+.why .kicker{color:var(--amber)}
+.why h3{font-size:1.9rem; font-weight:800; margin:.2em 0 .4em; position:relative}
+.why p{color:#E7EFEA; position:relative; max-width:58ch}
+
+/* galería fotos */
+.gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:26px}
+.gallery figure{margin:0; border-radius:14px; overflow:hidden; background:#ddd; border:1px solid var(--line)}
+.gallery img{width:100%; height:230px; object-fit:cover}
+.gallery figcaption{font-size:.9rem; color:var(--concrete); padding:10px 12px; background:var(--card)}
+@media(max-width:860px){.gallery{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.gallery{grid-template-columns:1fr}}
+
+/* objetivos */
+.aims{list-style:none; padding:0; margin:24px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.aims li{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--amber);
+  border-radius:12px; padding:16px 18px; font-size:1.02rem}
+@media(max-width:720px){.aims{grid-template-columns:1fr}}
+
+/* actores */
+.actors{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:26px}
+@media(max-width:820px){.actors{grid-template-columns:1fr}}
+.actor{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 24px}
+.actor h3{font-size:1.28rem; font-weight:700; color:var(--pine); display:flex; align-items:center; gap:10px}
+.actor h3 .num{font-family:var(--disp); font-weight:800; color:var(--amber); font-size:1.1rem}
+.actor p{margin:.5em 0 0; color:#3a463f; font-size:1rem}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.chip{font-family:var(--disp); font-weight:600; text-transform:uppercase; letter-spacing:.04em;
+  font-size:.82rem; background:var(--soft); color:var(--pine); padding:5px 12px; border-radius:999px}
+.chip.tba{background:transparent; color:var(--concrete); border:1.5px dashed #C9C6BB}
+
+/* etapas */
+.stage{border-radius:18px; padding:28px 30px; margin-top:18px; border:1px solid var(--line); background:var(--card)}
+.stage .top{display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+.stage .badge{font-family:var(--disp); font-weight:800; text-transform:uppercase; letter-spacing:.05em;
+  font-size:.8rem; padding:5px 12px; border-radius:999px}
+.badge-curso{background:var(--soft); color:var(--pine-2)}
+.badge-prio{background:var(--amber); color:#26200C}
+.stage h3{font-size:1.6rem; font-weight:800; color:var(--pine)}
+.stage.hero-stage{background:linear-gradient(180deg,#12403A,#0f342f); color:#fff; border:0; box-shadow:var(--shadow)}
+.stage.hero-stage h3{color:#fff}
+.stage.hero-stage p{color:#E7EFEA}
+.stage.hero-stage .roof-ico{position:absolute}
+.stage p{margin:.7em 0 0; max-width:64ch}
+.stage.pending{background:transparent; border:1.5px dashed #CFCBC0}
+.later{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px}
+@media(max-width:820px){.later{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.later{grid-template-columns:1fr}}
+.later .li{background:var(--altrow); border:1px solid var(--line); border-radius:12px; padding:14px 16px}
+.later .li b{font-family:var(--disp); font-weight:700; color:var(--pine); font-size:1.1rem}
+.note{font-size:.98rem; color:var(--concrete); margin-top:14px; font-style:italic}
+
+/* transparencia */
+.trans{background:var(--ink); color:#fff}
+.trans h2{color:#fff}
+.trans .lead{color:#CFDAD3}
+.trans-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:26px}
+@media(max-width:820px){.trans-grid{grid-template-columns:1fr}}
+.trans .box{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14); border-radius:16px; padding:24px}
+.trans .box h3{color:var(--amber); font-size:1.35rem; font-weight:700; margin-bottom:.3em}
+.trans .box p{color:#DCE5DF; font-size:1.02rem}
+.trans .flag{border-color:var(--amber); background:rgba(224,166,46,.10)}
+
+/* cierre */
+.close{background:var(--pine); color:#fff; text-align:center}
+.close h2{color:#fff; margin-bottom:.3em}
+.close p{color:#E7EFEA; max-width:52ch; margin:0 auto 26px}
+.close .cta-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap}
+
+footer{background:#0e1a16; color:#9FB3AA; padding:40px 0; font-size:.95rem}
+footer .wrap{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center}
+footer a{color:#CFDAD3; text-decoration:none}
+footer a:hover{color:#fff}
+
+/* reveal on scroll */
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease}
+.reveal.in{opacity:1; transform:none}
+
+:focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:4px}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+  .reveal{opacity:1; transform:none}
+  .roofline .draw{stroke-dashoffset:0} .roofline .tag{opacity:.95}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= NAV ======================= -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M4 20 L20 8 L36 20" fill="none" stroke="#E0A62E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="9" y1="19" x2="9" y2="33" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+        <line x1="31" y1="19" x2="31" y2="33" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+        <line x1="9" y1="26" x2="31" y2="26" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      Barras de Insurgentes
+    </a>
+    <div class="nav-links">
+      <a class="lnk" href="index.html">El proyecto</a>
+      <a class="lnk" href="avances.html">Avances</a>
+      <a class="btn btn-amber nav-donate" data-donate href="#">Apoyar el techo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero">
+  <div class="bg"><img src="img/hero.jpg" alt="Personas entrenando en las Barras de Insurgentes en la Glorieta Insurgentes" /></div>
+
+  <!-- FIRMA: la silueta del techo que aún no existe, trazada sobre el cielo abierto -->
+  <svg class="roofline" viewBox="0 0 760 150" aria-hidden="true">
+    <path class="draw" d="M30 120 L380 30 L730 120" />
+    <line class="draw" x1="60"  y1="110" x2="60"  y2="150" style="animation-delay:1.1s"/>
+    <line class="draw" x1="380" y1="55"  x2="380" y2="150" style="animation-delay:1.3s"/>
+    <line class="draw" x1="700" y1="110" x2="700" y2="150" style="animation-delay:1.5s"/>
+    <text class="tag" x="380" y="20" text-anchor="middle">aquí va el techo</text>
+  </svg>
+
+  <div class="wrap">
+    <div class="inner">
+      <span class="kicker">Iniciativa ciudadana · Glorieta Insurgentes, CDMX</span>
+      <h1>Un techo para las Barras de Insurgentes</h1>
+      <p>Cientos de personas entrenan aquí cada día, a cielo abierto. Cuando llueve, el espacio se inunda y se pierde. Empecemos por lo primero: techarlo.</p>
+      <div class="cta-row">
+        <a class="btn btn-amber" data-donate href="#">Apoyar el techo</a>
+        <a class="btn btn-ghost" href="avances.html">Ver avances</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ======================= ANTECEDENTES / EL PUNTO DE PARTIDA ======================= -->
+<section class="section" id="inicio">
+  <div class="wrap reveal">
+    <span class="kicker">El punto de partida</span>
+    <h2>Un espacio que la gente ya hizo suyo</h2>
+    <p class="lead">Varios ciudadanos, con ideas y estilos distintos, coinciden en algo: este lugar merece estar mejor. En vez de esperar a que alguien más lo resuelva, la comunidad se organizó para renovarlo por su cuenta. Y hay un acuerdo claro sobre por dónde empezar: el techo.</p>
+
+    <ul class="problems">
+      <li><span class="x">!</span><div><b>No hay techo.</b> El sol y la lluvia acortan las horas de uso y, después de cada tormenta, el espacio queda inservible por días.</div></li>
+      <li><span class="x">!</span><div><b>El piso se inunda.</b> Sin drenaje ni cubierta, el agua se estanca sobre el área de entrenamiento.</div></li>
+      <li><span class="x">!</span><div><b>Equipo desgastado y a la intemperie.</b> Las barras se oxidan y se reparan de forma improvisada.</div></li>
+      <li><span class="x">!</span><div><b>Basura y un campamento en la reja.</b> El entorno inmediato necesita orden y limpieza.</div></li>
+      <li><span class="x">!</span><div><b>Falta iluminación y seguridad.</b> De noche el espacio queda a oscuras y sin vigilancia.</div></li>
+      <li><span class="x">!</span><div><b>Faltan servicios básicos.</b> No hay baños, bebederos ni áreas de descanso dignas.</div></li>
+    </ul>
+
+    <div class="why" style="margin-top:30px">
+      <span class="kicker">Por qué empezamos por el techo</span>
+      <h3>Sin techo, todo lo demás se moja.</h3>
+      <p>El techo es lo que convierte a las Barras en un espacio usable todo el año, llueva o truene. Es la mejora que más impacto tiene por peso invertido y la base sobre la que tiene sentido construir cualquier otra cosa. Por eso es la prioridad máxima del proyecto y el único objetivo de la primera campaña de recaudación.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VISIÓN Y OBJETIVOS ======================= -->
+<section class="section" id="vision" style="background:var(--soft)">
+  <div class="wrap reveal">
+    <span class="kicker">A dónde vamos</span>
+    <h2>Mejorar un espacio público, entre ciudadanos</h2>
+    <p class="lead">Queremos demostrar que una iniciativa ciudadana puede mejorar un espacio público. El techo es la prioridad; a partir de ahí, empujaremos hasta donde se pueda para que este sea un lugar digno donde la gente quiera estar.</p>
+    <ul class="aims">
+      <li>Dar <b>acceso gratuito</b> a un espacio en condiciones para ejercitarse y convivir.</li>
+      <li>Mejorar la <b>calidad de la estadía</b> de quienes usan el lugar todos los días.</li>
+      <li>Fomentar el <b>deporte y los hábitos saludables</b> en el corazón de la ciudad.</li>
+      <li>Fortalecer la <b>convivencia comunitaria</b> alrededor del espacio.</li>
+      <li>Contribuir al <b>desarrollo social</b> del entorno.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ======================= ACTORES ======================= -->
+<section class="section" id="actores">
+  <div class="wrap reveal">
+    <span class="kicker">Quiénes lo hacen posible</span>
+    <h2>Actores involucrados</h2>
+    <p class="lead">Un proyecto ciudadano se sostiene entre muchas manos. Este espacio también sirve para reconocer a quienes aportan: conforme se sumen más personas y negocios, sus nombres aparecerán aquí.</p>
+
+    <div class="actors">
+      <!-- 1 -->
+      <div class="actor">
+        <h3><span class="num">01</span> Comité de gestión del proyecto</h3>
+        <p>Coordina el proyecto en el día a día.</p>
+        <div class="chips">
+          <span class="chip">Omar Herrera</span>
+          <span class="chip">Brandon Herrera</span>
+          <span class="chip">Mariel Estrella</span>
+          <span class="chip">ONAI (E. Del Valle)</span>
+        </div>
+      </div>
+      <!-- 2 -->
+      <div class="actor">
+        <h3><span class="num">02</span> Asociación Civil (A.C.)</h3>
+        <p>Funge como patrocinador fiscal: recibe y administra los donativos con transparencia y emite recibos deducibles de impuestos.</p>
+      </div>
+      <!-- 3 -->
+      <div class="actor">
+        <h3><span class="num">03</span> Autoridad correspondiente</h3>
+        <p>Alcaldía Cuauhtémoc y, según el caso, el Gobierno de la Ciudad de México. Su papel es otorgar permisos y acompañar el proyecto; <b>no administra los recursos</b>.</p>
+      </div>
+      <!-- 4 -->
+      <div class="actor">
+        <h3><span class="num">04</span> Otros actores clave</h3>
+        <p>Quienes hacen técnicamente posible la obra y el entorno.</p>
+        <div class="chips">
+          <span class="chip">Arquitectos</span>
+          <span class="chip">Ingenieros civiles</span>
+          <span class="chip">Diseñadores</span>
+          <span class="chip">Vecinos</span>
+          <span class="chip">Negocios locales</span>
+        </div>
+      </div>
+      <!-- 5 -->
+      <div class="actor">
+        <h3><span class="num">05</span> Comunidad de las Barras</h3>
+        <p>Quienes usan y sostienen el espacio día con día, incluyendo grupos deportivos como Team Majin y otros.</p>
+      </div>
+      <!-- 6 -->
+      <div class="actor">
+        <h3><span class="num">06</span> Patrocinadores y alianzas</h3>
+        <p>Influencers y negocios que se suman para impulsar el proyecto.</p>
+        <div class="chips">
+          <!-- EDITA AQUÍ: agrega un <span class="chip"> por cada nuevo aliado que se sume -->
+          <span class="chip">La Privada Roja</span>
+          <span class="chip tba">Por anunciar</span>
+          <span class="chip tba">Por anunciar</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= ETAPAS ======================= -->
+<section class="section" id="etapas" style="background:var(--altrow)">
+  <div class="wrap reveal">
+    <span class="kicker">El plan</span>
+    <h2>El proyecto por etapas</h2>
+    <p class="lead">Avanzamos paso a paso, cumpliendo lo que prometemos antes de dar el siguiente. Hoy todo el esfuerzo está puesto en una sola cosa: el techo.</p>
+
+    <!-- Etapa 0 -->
+    <div class="stage">
+      <div class="top">
+        <span class="badge badge-curso">En curso</span>
+        <h3>Etapa 0 · Planeación</h3>
+      </div>
+      <p>Aterrizar el proyecto del techo con un ingeniero civil y arquitectos, definir la ruta de permisos con la autoridad y obtener el costo real de la obra. Es la etapa en la que estamos hoy.</p>
+    </div>
+
+    <!-- Etapa 1: el techo (prioridad) -->
+    <div class="stage hero-stage">
+      <div class="top">
+        <span class="badge badge-prio">Prioridad máxima</span>
+        <h3>Etapa 1 · El techo</h3>
+      </div>
+      <p>Construir una cubierta que proteja el área de barras del sol y la lluvia, para que el espacio pueda usarse durante todo el año. Es la meta inmediata y el destino de la primera campaña de donación: el 100% de lo recaudado se destina a esta etapa.</p>
+    </div>
+
+    <!-- Siguientes etapas: indicativas -->
+    <div class="stage pending">
+      <div class="top">
+        <span class="badge badge-curso">Después del techo</span>
+        <h3>Siguientes etapas</h3>
+      </div>
+      <p>De concretarse el techo, se buscará continuar —en la medida de lo posible— con mejoras como:</p>
+      <div class="later">
+        <div class="li"><b>Seguridad e iluminación</b></div>
+        <div class="li"><b>Rehabilitación de las barras</b></div>
+        <div class="li"><b>Canchas deportivas</b></div>
+        <div class="li"><b>Servicios</b><br><span style="color:var(--concrete);font-size:.92rem">baños, bebederos, bancas</span></div>
+        <div class="li"><b>Imagen del entorno</b></div>
+        <div class="li"><b>Actividades para la comunidad</b></div>
+      </div>
+      <p class="note">Estas etapas se definirán a detalle únicamente cuando la Etapa 1 sea una realidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TRANSPARENCIA ======================= -->
+<section class="section trans" id="transparencia">
+  <div class="wrap reveal">
+    <span class="kicker">Cómo se maneja el dinero</span>
+    <h2>Transparencia total</h2>
+    <p class="lead">La confianza es la base de un proyecto ciudadano. Por eso el manejo de los recursos es claro y verificable desde el primer peso.</p>
+    <div class="trans-grid">
+      <div class="box">
+        <h3>Una A.C. como patrocinador fiscal</h3>
+        <p>Los donativos no los administra el comité en lo personal. Los recibe y administra una Asociación Civil que funge como patrocinador fiscal, lo que permite un manejo ordenado y auditable, y emitir recibos deducibles de impuestos por cada donativo.</p>
+      </div>
+      <div class="box flag">
+        <h3>La autoridad no gestiona el recurso</h3>
+        <p>La autoridad correspondiente —por ahora, la Alcaldía Cuauhtémoc— no recibe ni administra los fondos. Su papel es otorgar los permisos necesarios y acompañar el proyecto en lo que esté a su alcance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= HISTÓRICO ANTES / DESPUÉS ======================= -->
+<section class="section" id="historico">
+  <div class="wrap reveal">
+    <span class="kicker">El antes y el después</span>
+    <h2>Cómo está hoy el espacio</h2>
+    <p class="lead">Documentamos las condiciones actuales de las Barras. Conforme el proyecto avance, iremos sumando aquí las fotos del después.</p>
+
+    <div class="gallery">
+      <!-- ANTES -->
+      <figure><img src="img/antes-01.jpg" alt="Encharcamientos y basura tras la lluvia"><figcaption>Encharcamientos y basura tras la lluvia.</figcaption></figure>
+      <figure><img src="img/antes-02.jpg" alt="Zona de calistenia inundada en día lluvioso"><figcaption>Zona de calistenia inundada; equipo a la intemperie.</figcaption></figure>
+      <figure><img src="img/antes-04.jpg" alt="Barras y bancas con desgaste"><figcaption>Equipo con desgaste y reparaciones improvisadas.</figcaption></figure>
+      <figure><img src="img/antes-03.jpg" alt="Residuos y campamento junto a la reja"><figcaption>Residuos y un campamento junto a la reja perimetral.</figcaption></figure>
+      <figure><img src="img/antes-05.jpg" alt="Vista general de la zona de barras"><figcaption>La comunidad entrena pese al piso mojado.</figcaption></figure>
+      <figure><img src="img/antes-06.jpg" alt="Cancha de básquetbol en uso"><figcaption>La cancha, en uso diario por la comunidad.</figcaption></figure>
+
+      <!-- DESPUÉS · descomenta y reemplaza cuando tengas las fotos nuevas:
+      <figure><img src="img/despues-01.jpg" alt="Descripción"><figcaption>El techo instalado.</figcaption></figure>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CIERRE ======================= -->
+<section class="section close">
+  <div class="wrap reveal">
+    <h2>Esto lo construimos entre todos</h2>
+    <p>Tu apoyo pone el primer techo. Suma, comparte y ayúdanos a que las Barras de Insurgentes sean un mejor lugar para toda la comunidad.</p>
+    <div class="cta-row">
+      <a class="btn btn-amber" data-donate href="#">Apoyar el techo</a>
+      <a class="btn btn-ghost" href="avances.html">Ver los avances</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Barras de Insurgentes · Iniciativa ciudadana · Ciudad de México</div>
+    <div><a href="index.html">El proyecto</a> · <a href="avances.html">Avances</a></div>
+  </div>
+</footer>
+
+<script>
+/* ====== EDITA AQUÍ: liga de la campaña de donación (GoFundMe) ======
+   Cuando tengas la liga, pégala entre las comillas. Todos los botones
+   "Apoyar el techo" del sitio se actualizan solos. */
+const GOFUNDME_URL = "#";
+
+document.querySelectorAll('[data-donate]').forEach(function(a){
+  a.href = GOFUNDME_URL;
+  if(GOFUNDME_URL && GOFUNDME_URL !== "#"){ a.target = "_blank"; a.rel = "noopener"; }
+});
+
+/* Reveal al hacer scroll */
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+}, {threshold:.12});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+</script>
+</body>
+</html>

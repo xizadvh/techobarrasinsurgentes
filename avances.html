@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Avances · Barras de Insurgentes</title>
+<meta name="description" content="Sigue el progreso de la renovación de las Barras de Insurgentes: lo recaudado hasta hoy y los hitos del proyecto." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ===== Misma identidad visual que index.html ===== */
+:root{
+  --ink:#12211D; --pine:#123A34; --pine-2:#1C5C4F;
+  --amber:#E0A62E; --amber-deep:#B87E14;
+  --paper:#F7F5EF; --card:#FFFFFF; --altrow:#F1EFE8;
+  --concrete:#6B6F6A; --line:#E4E0D6; --soft:#E8F0EC;
+  --serif:'Barlow', system-ui, sans-serif;
+  --disp:'Barlow Condensed','Barlow',sans-serif;
+  --shadow:0 18px 40px rgba(18,33,29,.14);
+  --shadow-sm:0 6px 18px rgba(18,33,29,.10);
+  --wrap:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--serif); font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--disp); line-height:1.03; margin:0}
+a{color:inherit}
+.wrap{max-width:var(--wrap); margin:0 auto; padding:0 22px}
+.kicker{font-family:var(--disp); text-transform:uppercase; letter-spacing:.16em; font-weight:700; font-size:.86rem; color:var(--amber)}
+.btn{display:inline-flex; align-items:center; gap:.5em; font-family:var(--disp); font-weight:700;
+  text-transform:uppercase; letter-spacing:.06em; font-size:1rem; text-decoration:none; border-radius:999px;
+  padding:14px 26px; transition:transform .15s ease, box-shadow .15s ease; cursor:pointer; border:0}
+.btn-amber{background:var(--amber); color:#26200C; box-shadow:var(--shadow-sm)}
+.btn-amber:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+.btn-ghost{background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.6)}
+.btn-ghost:hover{border-color:#fff; background:rgba(255,255,255,.08)}
+
+/* nav */
+.nav{position:sticky; top:0; z-index:50; background:rgba(247,245,239,.92);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px; gap:16px}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--disp);
+  font-weight:800; text-transform:uppercase; letter-spacing:.04em; font-size:1.15rem; color:var(--pine)}
+.brand .mark{width:26px; height:26px; flex:0 0 auto}
+.nav-links{display:flex; align-items:center; gap:22px}
+.nav-links a.lnk{font-family:var(--disp); text-transform:uppercase; letter-spacing:.05em; font-weight:600;
+  text-decoration:none; color:var(--pine); font-size:.98rem}
+.nav-links a.lnk.active{color:var(--amber-deep)}
+.nav-links a.lnk:hover{color:var(--amber-deep)}
+.nav-donate{padding:9px 18px; font-size:.9rem}
+@media(max-width:680px){.nav-links a.lnk{display:none}}
+
+/* ===== HERO + CONTADOR ===== */
+.top-hero{background:linear-gradient(180deg,#12403A,#0e2b26); color:#fff; padding:64px 0 72px}
+.top-hero h1{font-size:clamp(2.4rem,6vw,3.8rem); font-weight:800; letter-spacing:-.01em; margin:.2em 0 .3em}
+.top-hero p{color:#D7E3DC; max-width:56ch; margin:0}
+
+.counter{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16); border-radius:22px;
+  padding:34px 32px; margin-top:34px; display:flex; flex-wrap:wrap; gap:28px; align-items:center; justify-content:space-between}
+.counter .amount{font-family:var(--disp); font-weight:800; font-size:clamp(3.2rem,11vw,6rem);
+  color:var(--amber); line-height:.9; letter-spacing:-.01em}
+.counter .amount small{font-size:.32em; color:#fff; font-weight:700; letter-spacing:.02em; margin-left:.15em}
+.counter .lbl{font-family:var(--disp); text-transform:uppercase; letter-spacing:.14em; font-weight:700;
+  font-size:.9rem; color:#CFE0D8; margin-top:8px}
+.counter .updated{font-size:.92rem; color:#A9BEB4; margin-top:6px}
+.counter .cta{display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+/* barra de meta (oculta si META = 0) */
+.meta-wrap{width:100%; margin-top:6px; display:none}
+.meta-bar{height:12px; background:rgba(255,255,255,.14); border-radius:999px; overflow:hidden}
+.meta-fill{height:100%; width:0; background:var(--amber); border-radius:999px; transition:width 1.4s ease}
+.meta-txt{font-size:.9rem; color:#CFE0D8; margin-top:8px}
+
+/* ===== TIMELINE ===== */
+.tl-section{padding:72px 0}
+.tl-section h2{font-size:clamp(2rem,5vw,3rem); font-weight:800; color:var(--pine); letter-spacing:-.01em}
+.tl-section .kicker{color:var(--amber-deep)}
+.timeline{position:relative; margin-top:40px; padding-left:8px}
+.timeline::before{content:""; position:absolute; left:22px; top:6px; bottom:6px; width:3px;
+  background:linear-gradient(180deg,var(--amber),var(--line))}
+.event{position:relative; padding:0 0 34px 62px}
+.event .dot{position:absolute; left:12px; top:2px; width:24px; height:24px; border-radius:50%;
+  background:var(--card); border:4px solid var(--amber); box-shadow:0 0 0 4px var(--paper)}
+.event.next .dot{border-color:var(--concrete); background:var(--paper)}
+.event.curso .dot{border-color:var(--pine-2)}
+.event .date{font-family:var(--disp); font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  font-size:.86rem; color:var(--amber-deep)}
+.event.next .date{color:var(--concrete)}
+.event h3{font-size:1.5rem; font-weight:700; color:var(--pine); margin:.1em 0 .25em}
+.event p{margin:0; color:#3a463f; max-width:60ch; font-size:1.03rem}
+.event .state{display:inline-block; font-family:var(--disp); font-weight:700; text-transform:uppercase;
+  letter-spacing:.05em; font-size:.72rem; padding:3px 10px; border-radius:999px; margin-bottom:8px}
+.state-done{background:var(--soft); color:var(--pine-2)}
+.state-curso{background:#FBEFD2; color:var(--amber-deep)}
+.state-next{background:transparent; color:var(--concrete); border:1.5px dashed #C9C6BB}
+.event.reveal{opacity:0; transform:translateY(16px); transition:opacity .5s ease, transform .5s ease}
+.event.reveal.in{opacity:1; transform:none}
+
+footer{background:#0e1a16; color:#9FB3AA; padding:40px 0; font-size:.95rem}
+footer .wrap{display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; align-items:center}
+footer a{color:#CFDAD3; text-decoration:none}
+footer a:hover{color:#fff}
+
+:focus-visible{outline:3px solid var(--amber); outline-offset:2px; border-radius:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}
+  .event.reveal{opacity:1; transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M4 20 L20 8 L36 20" fill="none" stroke="#E0A62E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="9" y1="19" x2="9" y2="33" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+        <line x1="31" y1="19" x2="31" y2="33" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+        <line x1="9" y1="26" x2="31" y2="26" stroke="#123A34" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      Barras de Insurgentes
+    </a>
+    <div class="nav-links">
+      <a class="lnk" href="index.html">El proyecto</a>
+      <a class="lnk active" href="avances.html">Avances</a>
+      <a class="btn btn-amber nav-donate" data-donate href="#">Apoyar el techo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO + CONTADOR ===== -->
+<header class="top-hero">
+  <div class="wrap">
+    <span class="kicker">Avances</span>
+    <h1>Cómo va el proyecto</h1>
+    <p>Aquí puedes seguir, de forma abierta, lo que hemos recaudado y los hitos que vamos alcanzando en el camino hacia el techo.</p>
+
+    <div class="counter">
+      <div>
+        <div class="amount" id="amount" data-target="50000">$0<small>MXN</small></div>
+        <div class="lbl">Recaudado hasta hoy</div>
+        <div class="updated" id="updated">Se actualiza cada semana</div>
+        <div class="meta-wrap" id="metaWrap">
+          <div class="meta-bar"><div class="meta-fill" id="metaFill"></div></div>
+          <div class="meta-txt" id="metaTxt"></div>
+        </div>
+      </div>
+      <div class="cta">
+        <a class="btn btn-amber" data-donate href="#">Donar en GoFundMe</a>
+        <a class="btn btn-ghost" href="index.html">Conocer el proyecto</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== LÍNEA DEL TIEMPO ===== -->
+<section class="tl-section">
+  <div class="wrap">
+    <span class="kicker">La ruta</span>
+    <h2>Línea del tiempo</h2>
+    <div class="timeline" id="timeline"><!-- se llena desde el script --></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>Barras de Insurgentes · Iniciativa ciudadana · Ciudad de México</div>
+    <div><a href="index.html">El proyecto</a> · <a href="avances.html">Avances</a></div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   PANEL DE CONTROL — EDITA SOLO ESTA PARTE CADA SEMANA
+   ===================================================================== */
+
+/* 1) Liga de la campaña (GoFundMe). Pega la tuya entre comillas. */
+const GOFUNDME_URL = "#";
+
+/* 2) Monto recaudado y fecha. Actualiza estos dos valores cada semana. */
+const RECAUDADO = 50000;                 // <-- cámbialo por el nuevo total
+const FECHA_ACTUALIZACION = "por definir"; // p. ej. "18 de agosto de 2026"
+
+/* 3) Meta (opcional). Déjala en 0 mientras no esté aterrizada con el
+      ingeniero civil. Si pones un número (p. ej. 400000), aparece la
+      barra de progreso automáticamente. */
+const META = 0;
+
+/* 4) Hitos de la línea del tiempo.
+      estado: "done" (logrado) · "curso" (en curso) · "next" (próximo)
+      Agrega, edita o borra objetos de esta lista con toda libertad. */
+const EVENTOS = [
+  { fecha:"2026", estado:"done",  titulo:"La comunidad se organiza",
+    texto:"Varios ciudadanos de la comunidad de las barras deciden renovar el espacio por cuenta propia." },
+  { fecha:"2026", estado:"done",  titulo:"Se suma una Asociación Civil",
+    texto:"Una A.C. entra como patrocinador fiscal para dar transparencia y permitir donativos deducibles." },
+  { fecha:"Julio 2026", estado:"done", titulo:"Primer acercamiento con la Alcaldía Cuauhtémoc",
+    texto:"Se presenta el proyecto a la autoridad, que queda de evaluarlo y darle seguimiento." },
+  { fecha:"Julio 2026", estado:"done", titulo:"~$50,000 recaudados por la comunidad",
+    texto:"La propia comunidad reúne los primeros recursos como base del financiamiento." },
+  { fecha:"Agosto 2026", estado:"done", titulo:"Visita de levantamiento en el sitio",
+    texto:"Recorrido en el espacio para documentar condiciones y necesidades. (Confirma la fecha.)" },
+  { fecha:"Próximamente", estado:"curso", titulo:"Proyecto ejecutivo del techo",
+    texto:"Aterrizar el diseño y el costo real del techo con un ingeniero civil y arquitectos." },
+  { fecha:"Próximamente", estado:"next", titulo:"Lanzamiento de la campaña de donación",
+    texto:"Apertura de la recaudación pública para financiar el techo." }
+];
+
+/* =====================================================================
+   De aquí para abajo no necesitas editar nada.
+   ===================================================================== */
+(function(){
+  // botones de donar
+  document.querySelectorAll('[data-donate]').forEach(function(a){
+    a.href = GOFUNDME_URL;
+    if(GOFUNDME_URL && GOFUNDME_URL !== "#"){ a.target="_blank"; a.rel="noopener"; }
+  });
+
+  // fecha de actualización
+  document.getElementById('updated').textContent =
+    "Se actualiza cada semana · última: " + FECHA_ACTUALIZACION;
+
+  // formato de moneda
+  const fmt = new Intl.NumberFormat('es-MX');
+  const amountEl = document.getElementById('amount');
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function render(v){ amountEl.innerHTML = "$" + fmt.format(Math.round(v)) + "<small>MXN</small>"; }
+
+  function countUp(){
+    if(reduce){ render(RECAUDADO); return; }
+    const dur=1400, t0=performance.now();
+    (function step(t){
+      const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3);
+      render(RECAUDADO*e);
+      if(p<1) requestAnimationFrame(step); else render(RECAUDADO);
+    })(t0);
+  }
+
+  // barra de meta
+  if(META && META>0){
+    const pct=Math.max(0,Math.min(100, RECAUDADO/META*100));
+    document.getElementById('metaWrap').style.display='block';
+    document.getElementById('metaTxt').textContent =
+      fmt.format(Math.round(pct)) + "% de la meta indicativa de $" + fmt.format(META) + " MXN";
+    setTimeout(function(){ document.getElementById('metaFill').style.width = pct + "%"; }, 400);
+  }
+
+  // dispara el conteo cuando el contador entra en pantalla
+  const cObs = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if(e.isIntersecting){ countUp(); cObs.disconnect(); } });
+  }, {threshold:.4});
+  cObs.observe(amountEl);
+
+  // pinta la línea del tiempo
+  const estados = { done:["Logrado","state-done"], curso:["En curso","state-curso"], next:["Próximo","state-next"] };
+  const tl = document.getElementById('timeline');
+  EVENTOS.forEach(function(ev){
+    const est = estados[ev.estado] || estados.next;
+    const el = document.createElement('div');
+    el.className = 'event reveal ' + ev.estado;
+    el.innerHTML =
+      '<span class="dot"></span>' +
+      '<div class="date">'+ev.fecha+'</div>' +
+      '<span class="state '+est[1]+'">'+est[0]+'</span>' +
+      '<h3>'+ev.titulo+'</h3>' +
+      '<p>'+ev.texto+'</p>';
+    tl.appendChild(el);
+  });
+
+  // reveal
+  const rObs = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); rObs.unobserve(e.target); } });
+  }, {threshold:.15});
+  document.querySelectorAll('.event.reveal').forEach(function(el){ rObs.observe(el); });
+})();
+</script>
+</body>
+</html>
